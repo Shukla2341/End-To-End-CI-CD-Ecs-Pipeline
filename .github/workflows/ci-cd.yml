@@ -56,4 +56,3 @@ steps:
         --cluster my-ecs-cluster \
         --service frontend-service \
         --force-new-deployment
-```
