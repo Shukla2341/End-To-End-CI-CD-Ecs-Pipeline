@@ -11,7 +11,7 @@ RUN npm run build
 
 
 # 🔹 Production Stage
-FROM nginx:alpine
+FROM nginx:latest
 
 # Remove default nginx page
 RUN rm -rf /usr/share/nginx/html/*

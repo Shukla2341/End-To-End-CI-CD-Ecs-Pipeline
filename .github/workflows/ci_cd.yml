@@ -38,15 +38,15 @@ jobs:
       - name: Build & Push Backend
         run: |
           docker build -t backend ./backend
-          docker tag backend:latest $ECR_REPOSITORY_URI:backend-$v2
-          docker push $ECR_REPOSITORY_URI:backend-$v2
+          docker tag backend:latest $ECR_REPOSITORY_URI:backend-$v4
+          docker push $ECR_REPOSITORY_URI:backend-$v4
 
       # 🔹 Frontend
       - name: Build & Push Frontend
         run: |
           docker build -t frontend ./frontend
-          docker tag frontend:latest $ECR_REPOSITORY_URI:frontend-$v3
-          docker push $ECR_REPOSITORY_URI:frontend-$v3
+          docker tag frontend:latest $ECR_REPOSITORY_URI:frontend-$v4
+          docker push $ECR_REPOSITORY_URI:frontend-$v4
 
       # 🚀 Deploy (still using force redeploy)
       - name: Deploy to ECS
