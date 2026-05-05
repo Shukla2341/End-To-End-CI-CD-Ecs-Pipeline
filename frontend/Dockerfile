@@ -1,28 +1,31 @@
-# 🔹 Stage 1: Build React App
+# 🔹 Build Stage
 FROM node:18 AS build
 
 WORKDIR /app
 
-# Copy package files first (for caching)
 COPY package*.json ./
-
 RUN npm install
 
-# Copy remaining code
 COPY . .
-
-# Build the app
 RUN npm run build
 
 
-# 🔹 Stage 2: Serve using Nginx
+# 🔹 Production Stage
 FROM nginx:alpine
 
-# Copy build files to nginx
+# Remove default files
+RUN rm -rf /usr/share/nginx/html/*
+
+# 👉 Use ONE correct folder (choose based on your app)
+# For React (CRA):
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Expose port 80
+# For Vite (use this instead if needed):
+# COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copy nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
 
-# Start nginx
 CMD ["nginx", "-g", "daemon off;"]

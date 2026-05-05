@@ -16,39 +16,31 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Set Image Tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+
       - name: Login to ECR
         run: |
           aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-      - name: Build & Push Backend
-        run: |
-          docker build -t backend ./backend
-          docker tag backend:latest $ECR_REPOSITORY_URI:backend
-          docker push $ECR_REPOSITORY_URI:backend
-
       - name: Build & Push Frontend
         run: |
           docker build -t frontend ./frontend
-          docker tag frontend:latest $ECR_REPOSITORY_URI:frontend
-          docker push $ECR_REPOSITORY_URI:frontend
+          docker tag frontend:latest $ECR_REPOSITORY_URI:frontend-$IMAGE_TAG
+          docker push $ECR_REPOSITORY_URI:frontend-$IMAGE_TAG
 
-      - name: Deploy to ECS
+      - name: Force ECS Deployment
         run: |
           aws ecs update-service \
             --cluster my-ecs-cluster \
-            --service backend-task-service \
-            --force-new-deployment
-
-          aws ecs update-service \
-            --cluster my-ecs-cluster \
-            --service frontend-task-service \
+            --service frontend-service \
             --force-new-deployment
