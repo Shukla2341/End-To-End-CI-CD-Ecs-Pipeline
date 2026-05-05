@@ -2,7 +2,8 @@ name: CI/CD Pipeline - ECS Deployment
 
 on:
 push:
-branches: ["main"]
+branches:
+- main
 
 env:
 AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -12,6 +13,7 @@ ECR_REPOSITORY_URI: ${{ secrets.ECR_REPOSITORY_URI }}
 jobs:
 deploy:
 runs-on: ubuntu-latest
+
 
 steps:
   - name: Checkout Code
@@ -26,8 +28,7 @@ steps:
 
   - name: Login to ECR
     run: |
-      aws ecr get-login-password --region $AWS_REGION | \
-      docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
   - name: Build & Push Backend
     run: |
@@ -47,8 +48,8 @@ steps:
         --cluster my-ecs-cluster \
         --service backend-service \
         --force-new-deployment
-
       aws ecs update-service \
         --cluster my-ecs-cluster \
         --service frontend-service \
         --force-new-deployment
+
