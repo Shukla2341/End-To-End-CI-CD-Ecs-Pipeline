@@ -1,65 +1,60 @@
 name: CI/CD Pipeline - ECS Deployment
 
 on:
-  push:
-    branches: ["main"]
+push:
+branches: ["main"]
 
 env:
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_REPOSITORY_URI: ${{ secrets.ECR_REPOSITORY_URI }}
+AWS_REGION: ${{ secrets.AWS_REGION }}
+AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+ECR_REPOSITORY_URI: ${{ secrets.ECR_REPOSITORY_URI }}
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+deploy:
+runs-on: ubuntu-latest
 
-    steps:
-      # 🔹 1. Checkout code
-      - name: Checkout Code
-        uses: actions/checkout@v3
+```
+steps:
+  - name: Checkout Code
+    uses: actions/checkout@v3
 
-      # 🔹 2. Configure AWS credentials
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+  - name: Configure AWS Credentials
+    uses: aws-actions/configure-aws-credentials@v2
+    with:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      aws-region: ${{ env.AWS_REGION }}
 
-      # 🔹 3. Login to ECR
-      - name: Login to ECR
-        run: |
-          aws ecr get-login-password --region $AWS_REGION | \
-          docker login --username AWS --password-stdin $ECR_REPOSITORY_URI
+  # Correct login (registry only)
+  - name: Login to ECR
+    run: |
+      aws ecr get-login-password --region $AWS_REGION | \
+      docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-      # 🔹 4. Build Backend Image
-      - name: Build Backend Image
-        run: |
-          docker build -t backend ./backend
-          docker tag backend:latest $ECR_REPOSITORY_URI/backend:latest
+  # Backend → same repo, different tag
+  - name: Build & Push Backend
+    run: |
+      docker build -t backend ./backend
+      docker tag backend:latest $ECR_REPOSITORY_URI:backend
+      docker push $ECR_REPOSITORY_URI:backend
 
-      # 🔹 5. Push Backend Image
-      - name: Push Backend Image
-        run: docker push $ECR_REPOSITORY_URI/backend:latest
+  # Frontend → same repo, different tag
+  - name: Build & Push Frontend
+    run: |
+      docker build -t frontend ./frontend
+      docker tag frontend:latest $ECR_REPOSITORY_URI:frontend
+      docker push $ECR_REPOSITORY_URI:frontend
 
-      # 🔹 6. Build Frontend Image
-      - name: Build Frontend Image
-        run: |
-          docker build -t frontend ./frontend
-          docker tag frontend:latest $ECR_REPOSITORY_URI/frontend:latest
+  # Deploy (force refresh)
+  - name: Deploy to ECS
+    run: |
+      aws ecs update-service \
+        --cluster my-ecs-cluster \
+        --service backend-service \
+        --force-new-deployment
 
-      # 🔹 7. Push Frontend Image
-      - name: Push Frontend Image
-        run: docker push $ECR_REPOSITORY_URI/frontend:latest
-
-      # 🔹 8. Deploy to ECS (Force new deployment)
-      - name: Deploy to ECS
-        run: |
-          aws ecs update-service \
-            --cluster my-cluster \
-            --service backend-service \
-            --force-new-deployment
-
-          aws ecs update-service \
-            --cluster my-cluster \
-            --service frontend-service \
-            --force-new-deployment
+      aws ecs update-service \
+        --cluster my-ecs-cluster \
+        --service frontend-service \
+        --force-new-deployment
+```
