@@ -45,10 +45,10 @@ jobs:
         run: |
           aws ecs update-service \
             --cluster my-ecs-cluster \
-            --service backend-service \
+            --service backend-task-service \
             --force-new-deployment
 
           aws ecs update-service \
             --cluster my-ecs-cluster \
-            --service frontend-service \
+            --service frontend-task-service \
             --force-new-deployment
