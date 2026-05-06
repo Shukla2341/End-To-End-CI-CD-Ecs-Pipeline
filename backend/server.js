@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 // ✅ Root Route (for Render check)
-app.get("/", (req, res) => {
+app.get("/health", (req, res) => {
   res.send("🚀 Grievance Backend is Running Successfully");
 });
 
