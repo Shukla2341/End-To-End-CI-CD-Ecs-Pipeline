@@ -1,20 +1,23 @@
-# 🔹 Base image
-FROM node:18
+# 🔹 Lightweight Node image
+FROM node:18-alpine
 
 # 🔹 Set working directory
 WORKDIR /app
 
-# 🔹 Copy dependency files first (for caching)
+# 🔹 Copy package files
 COPY package*.json ./
 
-# 🔹 Install dependencies
-RUN npm install
+# 🔹 Install only production dependencies
+RUN npm ci --only=production
 
-# 🔹 Copy rest of the code
+# 🔹 Copy source code
 COPY . .
 
-# 🔹 Expose backend port
+# 🔹 Set environment
+ENV NODE_ENV=production
+
+# 🔹 Expose port
 EXPOSE 5000
 
-# 🔹 Start the server
+# 🔹 Start app
 CMD ["node", "server.js"]

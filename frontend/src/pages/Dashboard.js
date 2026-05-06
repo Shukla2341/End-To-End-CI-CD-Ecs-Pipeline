@@ -21,7 +21,7 @@ export default function Dashboard() {
   const fetchData = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/grievances",
+        "/api/grievances",
         { headers: { Authorization: token } }
       );
       setData(res.data);
