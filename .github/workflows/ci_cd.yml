@@ -38,8 +38,8 @@ jobs:
       - name: Build & Push Backend
         run: |
           docker build -t backend ./backend
-          docker tag backend:latest $ECR_REPOSITORY_URI:backend-$v3
-          docker push $ECR_REPOSITORY_URI:backend-$v3
+          docker tag backend:latest $ECR_REPOSITORY_URI:latest
+          docker push $ECR_REPOSITORY_URI:latest
 
       # 🔹 Frontend
       - name: Build & Push Frontend
