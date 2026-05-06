@@ -14,6 +14,10 @@ app.get("/health", (req, res) => {
   res.send("🚀 Grievance Backend is Running Successfully");
 });
 
+app.get("/api/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 // ✅ Import Routes
 const authRoutes = require("./routes/auth");
 const grievanceRoutes = require("./routes/grievance");
