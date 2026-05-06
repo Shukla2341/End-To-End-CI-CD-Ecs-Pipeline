@@ -16,7 +16,7 @@ COPY . .
 # 🔹 Set environment
 ENV NODE_ENV=production
 
-# 🔹 Expose port
+# 🔹 Expose por
 EXPOSE 3000
 
 # 🔹 Start app
