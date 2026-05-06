@@ -17,7 +17,7 @@ COPY . .
 ENV NODE_ENV=production
 
 # 🔹 Expose port
-EXPOSE 5000
+EXPOSE 3000
 
 # 🔹 Start app
 CMD ["node", "server.js"]
