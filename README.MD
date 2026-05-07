@@ -53,3 +53,27 @@ The infrastructure is fully containerized and deployed on AWS using:
                   │      Database      │
                   │    (Data Layer)    │
                   └────────────────────┘
+
+
+# Tech Stack
+
+## Frontend
+
+React.js
+JavaScript
+Axios
+Nginx
+
+# Backend
+Node.js
+Express.js
+
+## DevOps & Cloud
+Docker
+GitHub Actions
+AWS ECS Fargate
+AWS ECR
+Application Load Balancer (ALB)
+AWS Auto Scaling
+AWS CloudWatch
+Docker Compose
