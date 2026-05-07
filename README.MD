@@ -103,13 +103,13 @@ The complete infrastructure is containerized and deployed using AWS cloud servic
 
 ---
 
-# 🔄 Project Workflow
+#   Project Workflow
 
 This project follows a complete **DevOps CI/CD workflow** for deploying a containerized Three-Tier Application on AWS using Docker, Amazon ECS Fargate, Application Load Balancer, Auto Scaling, CloudWatch, and GitHub Actions.
 
 ---
 
-# 🪜 Step 1: Develop Frontend & Backend
+#   Step 1: Develop Frontend & Backend
 
 ## Frontend Development
 - Build React frontend application
@@ -123,7 +123,7 @@ This project follows a complete **DevOps CI/CD workflow** for deploying a contai
 
 ---
 
-# 🪜 Step 2: Containerize the Application
+#   Step 2: Containerize the Application
 
 ## Create Dockerfiles
 - Create Dockerfile for frontend
@@ -138,7 +138,7 @@ docker build -t backend ./backend
 
 ---
 
-# 🪜 Step 3: Push Code to GitHub
+#   Step 3: Push Code to GitHub
 
 The developer pushes the latest code to the GitHub repository.
 
@@ -148,7 +148,7 @@ git push origin main
 
 ---
 
-# 🪜 Step 4: GitHub Actions CI/CD Pipeline Triggered
+#   Step 4: GitHub Actions CI/CD Pipeline Triggered
 
 GitHub Actions automatically starts the CI/CD workflow.
 
@@ -162,7 +162,7 @@ GitHub Actions automatically starts the CI/CD workflow.
 
 ---
 
-# 🪜 Step 5: Push Docker Images to Amazon ECR
+#   Step 5: Push Docker Images to Amazon ECR
 
 The CI/CD pipeline pushes Docker images to Amazon ECR repositories.
 
@@ -172,7 +172,7 @@ docker push <ecr-repository-url>
 
 ---
 
-# 🪜 Step 6: Create AWS Infrastructure
+#   Step 6: Create AWS Infrastructure
 
 ## Configure AWS Services
 - Create ECS Cluster
@@ -184,7 +184,7 @@ docker push <ecr-repository-url>
 
 ---
 
-# 🪜 Step 7: Deploy Containers on ECS Fargate
+#   Step 7: Deploy Containers on ECS Fargate
 
 GitHub Actions updates ECS services using:
 
@@ -196,7 +196,7 @@ Amazon ECS Fargate launches updated frontend and backend containers automaticall
 
 ---
 
-# 🪜 Step 8: Configure Application Load Balancer
+#   Step 8: Configure Application Load Balancer
 
 Application Load Balancer distributes traffic between frontend and backend services.
 
@@ -206,7 +206,7 @@ Application Load Balancer distributes traffic between frontend and backend servi
 
 ---
 
-# 🪜 Step 9: Configure Auto Scaling
+#   Step 9: Configure Auto Scaling
 
 AWS Auto Scaling automatically adjusts ECS tasks based on:
 
@@ -221,7 +221,7 @@ This ensures:
 
 ---
 
-# 🪜 Step 10: Monitor Application with CloudWatch
+#   Step 10: Monitor Application with CloudWatch
 
 Amazon CloudWatch monitors:
 
@@ -233,7 +233,7 @@ Amazon CloudWatch monitors:
 
 ---
 
-# 🪜 Step 11: Application Goes Live
+#   Step 11: Application Goes Live
 
 The deployed application becomes accessible through the Application Load Balancer DNS URL.
 
@@ -243,7 +243,7 @@ Application Load Balancer URL
 
 ---
 
-# 🚀 Complete Workflow Diagram
+#   Complete Workflow Diagram
 
 ```text
 Develop Frontend & Backend
