@@ -1,0 +1,35 @@
+{
+  "serviceName": "backend-task-service1",
+  "cluster": "my-ecs-cluster",
+  "taskDefinition": "backend-task",
+  "desiredCount": 1,
+  "launchType": "FARGATE",
+  "platformVersion": "LATEST",
+  "deploymentConfiguration": {
+    "maximumPercent": 200,
+    "minimumHealthyPercent": 50
+  },
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "subnets": [
+        "subnet-xxxxxxxx",
+        "subnet-yyyyyyyy"
+      ],
+      "securityGroups": [
+        "sg-xxxxxxxx"
+      ],
+      "assignPublicIp": "ENABLED"
+    }
+  },
+  "loadBalancers": [
+    {
+      "targetGroupArn": "arn:aws:elasticloadbalancing:ap-south-1:612309386446:targetgroup/backe-tg/xxxxxxxxxxxx",
+      "containerName": "backend",
+      "containerPort": 3000
+    }
+  ],
+  "healthCheckGracePeriodSeconds": 60,
+  "schedulingStrategy": "REPLICA",
+  "enableECSManagedTags": true,
+  "propagateTags": "SERVICE"
+}
