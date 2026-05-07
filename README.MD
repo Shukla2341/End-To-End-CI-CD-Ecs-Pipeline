@@ -145,19 +145,19 @@ Project Structure
 CI/CD Workflow
 
 Developer Push
-      ↓
+
 GitHub Actions Trigger
-      ↓
+
 Build Docker Images
-      ↓
+  
 Push Images to Amazon ECR
-      ↓
+  
 Update ECS Services
-      ↓
+    
 Deploy on ECS Fargate
-      ↓
+    
 Application Load Balancer Routes Traffic
-      ↓
+    
 CloudWatch Monitors Logs & Metrics
 
 
