@@ -103,15 +103,44 @@ The complete infrastructure is containerized and deployed using AWS cloud servic
 
 ---
 
-#   Project Workflow
+# 🔄 Project Workflow
 
-This project follows a complete **DevOps CI/CD workflow** for deploying a containerized Three-Tier Application on AWS.
+This project follows a complete **DevOps CI/CD workflow** for deploying a containerized Three-Tier Application on AWS using Docker, Amazon ECS Fargate, Application Load Balancer, Auto Scaling, CloudWatch, and GitHub Actions.
 
 ---
 
-##   Step 1: Developer Pushes Code
+# 🪜 Step 1: Develop Frontend & Backend
 
-The developer pushes the latest frontend and backend code to the GitHub repository.
+## Frontend Development
+- Build React frontend application
+- Create UI components
+- Configure API integration
+
+## Backend Development
+- Build Node.js backend API
+- Create routes and controllers
+- Configure database connection
+
+---
+
+# 🪜 Step 2: Containerize the Application
+
+## Create Dockerfiles
+- Create Dockerfile for frontend
+- Create Dockerfile for backend
+
+## Build Docker Images
+
+```bash
+docker build -t frontend ./frontend
+docker build -t backend ./backend
+```
+
+---
+
+# 🪜 Step 3: Push Code to GitHub
+
+The developer pushes the latest code to the GitHub repository.
 
 ```bash
 git push origin main
@@ -119,11 +148,11 @@ git push origin main
 
 ---
 
-##   Step 2: GitHub Actions CI/CD Pipeline Triggered
+# 🪜 Step 4: GitHub Actions CI/CD Pipeline Triggered
 
-GitHub Actions automatically detects changes in the repository and starts the CI/CD workflow.
+GitHub Actions automatically starts the CI/CD workflow.
 
-### Pipeline Tasks:
+## Pipeline Tasks
 - Install dependencies
 - Build frontend & backend
 - Build Docker images
@@ -133,26 +162,9 @@ GitHub Actions automatically detects changes in the repository and starts the CI
 
 ---
 
-##   Step 3: Docker Images are Built
+# 🪜 Step 5: Push Docker Images to Amazon ECR
 
-Separate Docker images are created for:
-
-- React Frontend
-- Node.js Backend
-
-```bash
-docker build -t frontend ./frontend
-docker build -t backend ./backend
-```
-
----
-
-##   Step 4: Docker Images are Pushed to Amazon ECR
-
-The CI/CD pipeline pushes Docker images to:
-
-- Amazon ECR Frontend Repository
-- Amazon ECR Backend Repository
+The CI/CD pipeline pushes Docker images to Amazon ECR repositories.
 
 ```bash
 docker push <ecr-repository-url>
@@ -160,58 +172,58 @@ docker push <ecr-repository-url>
 
 ---
 
-##   Step 5: ECS Service Deployment Starts
+# 🪜 Step 6: Create AWS Infrastructure
 
-GitHub Actions updates the ECS services using:
+## Configure AWS Services
+- Create ECS Cluster
+- Create ECS Task Definitions
+- Create ECS Services
+- Configure Application Load Balancer
+- Configure Security Groups
+- Configure Target Groups
+
+---
+
+# 🪜 Step 7: Deploy Containers on ECS Fargate
+
+GitHub Actions updates ECS services using:
 
 ```bash
 aws ecs update-service --force-new-deployment
 ```
 
-This forces ECS to pull the latest Docker images from ECR.
+Amazon ECS Fargate launches updated frontend and backend containers automatically.
 
 ---
 
-##   Step 6: ECS Fargate Launches Containers
+# 🪜 Step 8: Configure Application Load Balancer
 
-AWS ECS Fargate launches new frontend and backend containers without managing servers manually.
+Application Load Balancer distributes traffic between frontend and backend services.
 
-### ECS Responsibilities:
-- Run containers
-- Restart failed tasks
-- Maintain desired task count
-- Handle networking
-
----
-
-##   Step 7: Application Load Balancer Routes Traffic
-
-Application Load Balancer (ALB) distributes incoming traffic between frontend and backend services.
-
-### Routing Example:
+## Routing Rules
 - `/` → Frontend Service
 - `/api/*` → Backend Service
 
 ---
 
-##   Step 8: Auto Scaling Monitors Application Load
+# 🪜 Step 9: Configure Auto Scaling
 
-AWS Auto Scaling automatically increases or decreases ECS tasks based on:
+AWS Auto Scaling automatically adjusts ECS tasks based on:
 
 - CPU utilization
 - Memory utilization
 - Traffic load
 
-This improves:
+This ensures:
+- High availability
 - Scalability
-- Performance
-- Availability
+- Better performance
 
 ---
 
-##   Step 9: CloudWatch Monitoring & Logging
+# 🪜 Step 10: Monitor Application with CloudWatch
 
-Amazon CloudWatch continuously monitors:
+Amazon CloudWatch monitors:
 
 - ECS task logs
 - CPU usage
@@ -219,18 +231,11 @@ Amazon CloudWatch continuously monitors:
 - Container health
 - Application metrics
 
-Logs and metrics help in:
-- Debugging
-- Monitoring
-- Performance optimization
-
 ---
 
-##   Step 10: Updated Application Goes Live
+# 🪜 Step 11: Application Goes Live
 
-The new application version becomes available to users with minimal downtime.
-
-Users access the application through:
+The deployed application becomes accessible through the Application Load Balancer DNS URL.
 
 ```text
 Application Load Balancer URL
@@ -238,26 +243,28 @@ Application Load Balancer URL
 
 ---
 
-#   Complete Workflow Diagram
+# 🚀 Complete Workflow Diagram
 
 ```text
-Developer Push
-      ↓
+Develop Frontend & Backend
+            ↓
+Containerize Application
+            ↓
+Push Code to GitHub
+            ↓
 GitHub Actions Triggered
-      ↓
+            ↓
 Build Docker Images
-      ↓
+            ↓
 Push Images to Amazon ECR
-      ↓
-Update ECS Services
-      ↓
-ECS Fargate Deploys Containers
-      ↓
+            ↓
+Deploy Containers to ECS Fargate
+            ↓
 ALB Routes Traffic
-      ↓
+            ↓
 Auto Scaling Handles Load
-      ↓
-CloudWatch Monitors Application
-      ↓
+            ↓
+CloudWatch Monitoring
+            ↓
 Application Goes Live
 ```
