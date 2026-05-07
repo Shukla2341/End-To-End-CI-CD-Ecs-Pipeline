@@ -1,8 +1,9 @@
 Three-Tier Architecture with CI/CD Pipeline
 
-    A production-ready Three-Tier Web Application built using React.js, Node.js, Docker, AWS ECS Fargate, Application Load Balancer, Auto Scaling, CloudWatch Monitoring, and GitHub Actions CI/CD.
+A production-ready Three-Tier Web Application built using React.js, Node.js, Docker, AWS ECS Fargate, Application Load Balancer, Auto Scaling, CloudWatch Monitoring, and GitHub Actions CI/CD.
 
-    This project demonstrates modern cloud-native deployment, container orchestration, and DevOps automation practices using AWS services.
+This project demonstrates modern cloud-native deployment, container orchestration, and DevOps automation practices using AWS services.
+
 
 Project Overview
 
@@ -138,6 +139,8 @@ Project Structure
 ├── .gitignore
 ├── README.md
 └── LICENSE
+
+
 
 CI/CD Workflow
 
