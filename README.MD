@@ -5,6 +5,9 @@ A production-ready **Three-Tier Web Application** built using **React.js**, **No
 This project demonstrates modern **cloud-native deployment**, **container orchestration**, and **DevOps automation** practices using AWS services.
 
 ---
+
+#   End-to-End CI/CD Architecture Diagram
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/Shukla2341/End-To-End-CI-CD-Ecs-Pipeline/main/Gemini_Generated_Image_cs4e6qcs4e6qcs4e.png" width="700"/>
 </p>
